@@ -3,7 +3,16 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["i.scdn.co", "mosaic.scdn.co"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "i.scdn.co",
+      },
+      {
+        protocol: "https",
+        hostname: "mosaic.scdn.co",
+      },
+    ],
   },
   experimental: {
     // @ts-expect-error — типы Next.js 15.4 ещё не знают этого поля

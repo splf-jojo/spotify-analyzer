@@ -15,6 +15,11 @@ export default function Home() {
             Labels
           </Link>
         </li>
+        <li>
+          <Link className="text-green-400 hover:underline" href="/search">
+            Search Users
+          </Link>
+        </li>
       </ul>
     </main>
   );
