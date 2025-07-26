@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
-import { fetchTopGenres } from "@/lib/spotify";
+import { fetchTopGenres, refreshSpotifyToken } from "@/lib/spotify";
 
 interface PageProps {
   params: { user_id: string };
@@ -24,8 +24,16 @@ export default async function UserPage({ params }: PageProps) {
   const account = user.accounts.find((a) => a.provider === "spotify");
   let genres: string[] = [];
   if (account?.access_token) {
+    let token = account.access_token;
+    if (account.expires_at && account.expires_at * 1000 < Date.now()) {
+      try {
+        token = await refreshSpotifyToken(account.id, account.refresh_token ?? "");
+      } catch (e) {
+        console.error(e);
+      }
+    }
     try {
-      genres = await fetchTopGenres(account.access_token, "medium_term");
+      genres = await fetchTopGenres(token, "medium_term");
     } catch (e) {
       console.error(e);
     }

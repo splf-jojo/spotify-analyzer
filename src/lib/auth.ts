@@ -24,15 +24,15 @@ export const authOptions: NextAuthOptions = {
         token.accessToken = account.access_token;
       }
       if (user) {
-        (token as any).id = user.id;
+        token.id = user.id;
       }
       return token;
     },
     // Срабатывает при getSession() / useSession() и передаёт токен в браузер
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).accessToken = (token as any).accessToken;
-        (session.user as any).id = (token as any).id ?? token.sub;
+        session.user.accessToken = token.accessToken;
+        session.user.id = token.id ?? token.sub;
       }
       return session;
     },
