@@ -19,16 +19,20 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     // Срабатывает на первой авторизации и при обновлении JWT
-    async jwt({ token, account }) {
+    async jwt({ token, account, user }) {
       if (account) {
         token.accessToken = account.access_token;
+      }
+      if (user) {
+        (token as any).id = user.id;
       }
       return token;
     },
     // Срабатывает при getSession() / useSession() и передаёт токен в браузер
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).accessToken = token.accessToken;
+        (session.user as any).accessToken = (token as any).accessToken;
+        (session.user as any).id = (token as any).id ?? token.sub;
       }
       return session;
     },
