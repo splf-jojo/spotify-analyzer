@@ -8,6 +8,7 @@ interface PageProps {
 
 export default async function UserPage({ params }: PageProps) {
   const { user_id } = await params;
+
   const user = await prisma.user.findUnique({
     where: { id: user_id },
     include: { accounts: true },
@@ -34,6 +35,7 @@ export default async function UserPage({ params }: PageProps) {
     }
     try {
       genres = await fetchTopGenres(token, "medium_term");
+
     } catch (e) {
       console.error(e);
     }

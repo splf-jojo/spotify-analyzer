@@ -15,6 +15,7 @@ export default function Header() {
         <div className="flex items-center gap-4">
           {session.user?.image && (
             <Link href={`/${session.user.id}`}>
+
               <Image src={session.user.image} alt="avatar" width={32} height={32} className="rounded-full" />
             </Link>
           )}
