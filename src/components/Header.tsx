@@ -14,7 +14,9 @@ export default function Header() {
       {session ? (
         <div className="flex items-center gap-4">
           {session.user?.image && (
-            <Image src={session.user.image} alt="avatar" width={32} height={32} className="rounded-full" />
+            <Link href={`/${session.user.id}`}>
+              <Image src={session.user.image} alt="avatar" width={32} height={32} className="rounded-full" />
+            </Link>
           )}
           <span>{session.user?.name}</span>
           <button onClick={() => signOut()} className="text-sm text-gray-300 hover:underline">

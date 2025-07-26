@@ -4,14 +4,14 @@ import { fetchTopGenres } from '@/lib/spotify'
 
 export default async function Favorites() {
   const session = await getServerSession(authOptions)
-  if (!session || !(session.user as any).accessToken) {
+  if (!session || !session.user?.accessToken) {
     return (
       <main className="p-6 text-white bg-neutral-900 min-h-screen">
         <p>Необходимо войти в систему.</p>
       </main>
     )
   }
-  const token = (session.user as any).accessToken as string
+  const token = session.user.accessToken as string
   const [short, medium, long] = await Promise.all([
     fetchTopGenres(token, 'short_term'),
     fetchTopGenres(token, 'medium_term'),
