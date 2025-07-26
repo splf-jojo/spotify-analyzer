@@ -2,13 +2,13 @@ import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { fetchTopGenres, refreshSpotifyToken } from "@/lib/spotify";
 
-
 interface PageProps {
   params: { user_id: string };
 }
 
 export default async function UserPage({ params }: PageProps) {
-  const { user_id } = params;
+  const { user_id } = await params;
+
   const user = await prisma.user.findUnique({
     where: { id: user_id },
     include: { accounts: true },
@@ -34,8 +34,8 @@ export default async function UserPage({ params }: PageProps) {
       }
     }
     try {
-      genres = await fetchTopGenres(token, "medium_term");=======
-   
+      genres = await fetchTopGenres(token, "medium_term");
+
     } catch (e) {
       console.error(e);
     }
